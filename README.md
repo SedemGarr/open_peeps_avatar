@@ -1,6 +1,6 @@
 # open_peeps_avatar
 
-Customisable [Open Peeps](https://www.openpeeps.com) avatars for Flutter games. Built for by Wayyy Out Games, building on [open_peeps](https://pub.dev/packages/open_peeps) by Jens Horstmann.
+Customisable [Open Peeps](https://www.openpeeps.com) avatars for Flutter games. Built by Wayyy Out Games, building on [open_peeps](https://pub.dev/packages/open_peeps) by Jens Horstmann.
 
 - **`AvatarLook`**: head, face, facial hair, accessory, skin, pen colour, outfit, pose, background and pattern, packed into one `int` (exact on web, < 2^53).
 - **Widgets**: `PeepSticker` (round head and shoulders), `PeepCard` (full body), `PeepFigure` / `PeepBust` / `PeepPortrait` to build your own frames, and `PeepAvatar` (head only, v1).
