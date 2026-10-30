@@ -1,0 +1,6 @@
+Illustrations in assets/peeps are from Open Peeps by Pablo Stanley
+(https://www.openpeeps.com), released under CC0.
+
+The atom, serializer and generator code under lib/src was adapted from the
+`open_peeps` Flutter package (https://pub.dev/packages/open_peeps); see that
+package for its license terms.

@@ -1,0 +1,30 @@
+name: open_peeps_avatar
+description: Open Peeps avatars for Flutter games - compact int encoding, head/body rendering and a themeable avatar studio.
+version: 0.1.0
+publish_to: none
+
+environment:
+  sdk: ^3.10.1
+  flutter: '>=3.38.0'
+
+dependencies:
+  flutter:
+    sdk: flutter
+  flutter_svg: ^2.2.4
+
+dev_dependencies:
+  flutter_test:
+    sdk: flutter
+  flutter_lints: ^6.0.0
+  # Only for tool/open_peeps_generator.dart.
+  path: ^1.9.1
+
+flutter:
+  assets:
+    - assets/peeps/accessories/
+    - assets/peeps/body/
+    - assets/peeps/face/
+    - assets/peeps/facial-hair/
+    - assets/peeps/head/
+    - assets/peeps/pose/standing/
+    - assets/peeps/pose/sitting/
