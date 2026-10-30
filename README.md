@@ -1,5 +1,7 @@
 # open_peeps_avatar
 
+![A row of Open Peeps characters standing, sitting and in a wheelchair](https://raw.githubusercontent.com/SedemGarr/open_peeps_avatar/main/doc/open_peeps.png)
+
 Customisable [Open Peeps](https://www.openpeeps.com) avatars for Flutter games. Built by Wayyy Out Games, building on [open_peeps](https://pub.dev/packages/open_peeps) by Jens Horstmann.
 
 - **`AvatarLook`**: head, face, facial hair, accessory, skin, pen colour, outfit, pose, background and pattern, packed into one `int` (exact on web, < 2^53).
