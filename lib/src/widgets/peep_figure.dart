@@ -4,6 +4,7 @@ import 'package:open_peeps_avatar/src/avatar_look.dart';
 import 'package:open_peeps_avatar/src/models/peep_atom.dart';
 import 'package:open_peeps_avatar/src/atoms/anchors.dart';
 import 'package:open_peeps_avatar/src/widgets/peep_image.dart';
+import 'package:open_peeps_avatar/src/widgets/peep_semantics.dart';
 
 /// A whole peep: the player's head placed on a body.
 ///
@@ -18,11 +19,15 @@ class PeepFigure extends StatelessWidget {
   final AvatarMood mood;
   final bool fullBody;
 
+  /// What screen readers say. Without one the figure is decorative.
+  final String? semanticLabel;
+
   const PeepFigure({
     super.key,
     required this.look,
     this.mood = AvatarMood.neutral,
     this.fullBody = false,
+    this.semanticLabel,
   });
 
   /// Head assembly size at the base scale.
@@ -84,39 +89,42 @@ class PeepFigure extends StatelessWidget {
     final right = (body.dx + bodyW) > headSize ? body.dx + bodyW : headSize;
     final bottom = (body.dy + bodyH) > headSize ? body.dy + bodyH : headSize;
 
-    return SizedBox(
-      width: right - left,
-      height: bottom - top,
-      child: Stack(
-        clipBehavior: Clip.none,
-        children: [
-          Positioned(
-            left: body.dx - left,
-            top: body.dy - top,
-            child: SvgPicture(
-              SvgAssetLoader(
-                'assets/peeps/${bodyAtom.directoryName}/${bodyAtom.name}.svg',
-                packageName: peepsPackage,
-                colorMapper: fill,
+    return peepSemantics(
+      label: semanticLabel,
+      child: SizedBox(
+        width: right - left,
+        height: bottom - top,
+        child: Stack(
+          clipBehavior: Clip.none,
+          children: [
+            Positioned(
+              left: body.dx - left,
+              top: body.dy - top,
+              child: SvgPicture(
+                SvgAssetLoader(
+                  'assets/peeps/${bodyAtom.directoryName}/${bodyAtom.name}.svg',
+                  packageName: peepsPackage,
+                  colorMapper: fill,
+                ),
+                width: bodyW,
+                height: bodyH,
+                allowDrawingOutsideViewBox: true,
+                clipBehavior: Clip.none,
               ),
-              width: bodyW,
-              height: bodyH,
-              allowDrawingOutsideViewBox: true,
-              clipBehavior: Clip.none,
             ),
-          ),
-          Positioned(
-            left: -left,
-            top: -top,
-            child: PeepHead(
-              look: look,
-              mood: mood,
-              size: headSize,
-              skin: fill,
-              ink: inkOnly,
+            Positioned(
+              left: -left,
+              top: -top,
+              child: PeepHead(
+                look: look,
+                mood: mood,
+                size: headSize,
+                skin: fill,
+                ink: inkOnly,
+              ),
             ),
-          ),
-        ],
+          ],
+        ),
       ),
     );
   }

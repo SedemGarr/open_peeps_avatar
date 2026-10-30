@@ -58,6 +58,20 @@ ThemeData(extensions: [
 
 For the studio, pass `PeepStudioStrings(...)` for translations and `PeepStudioStyle(...)` to swap icons, the preview avatar, option tiles, the Shuffle button, dividers and swatch outlines.
 
+### On dark backgrounds
+
+The art is drawn in dark ink, so on a dark screen give peeps a light backing: stickers and cards have one, and `PeepCutout` outlines any peep like a die-cut sticker:
+
+```dart
+PeepCutout(color: Colors.white, child: PeepFigure(look: look, fullBody: true));
+```
+
+### Props, screen readers and sharing
+
+- A sticker's crown or sparkle draws outside its circle. Pass `reservePropSpace: true` when nothing should overlap it.
+- Peeps are decorative to screen readers unless you give them a `semanticLabel`, e.g. `"CleverOtter482's avatar"`.
+- Wrap a peep, or a whole share card, in `PeepCapture` and call `controller.toPng()` once it's on screen.
+
 ### Locked items
 
 Everything is free by default. To gate items behind your game's badges, call this once at startup, before any avatar is drawn:

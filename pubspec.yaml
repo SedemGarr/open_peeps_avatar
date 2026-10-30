@@ -1,6 +1,6 @@
 name: open_peeps_avatar
 description: Customisable Open Peeps avatars for Flutter games, with a one-int encoding, full-body poses and a themeable avatar editor.
-version: 0.1.1
+version: 0.2.0
 homepage: https://github.com/SedemGarr/open_peeps_avatar
 repository: https://github.com/SedemGarr/open_peeps_avatar
 issue_tracker: https://github.com/SedemGarr/open_peeps_avatar/issues

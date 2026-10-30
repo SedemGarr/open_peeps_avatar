@@ -5,6 +5,7 @@ import 'package:flutter/material.dart';
 import 'package:open_peeps_avatar/src/avatar_look.dart';
 import 'package:open_peeps_avatar/src/theme.dart';
 import 'package:open_peeps_avatar/src/widgets/peep_figure.dart';
+import 'package:open_peeps_avatar/src/widgets/peep_semantics.dart';
 
 /// A player's avatar as a round sticker: head and shoulders in their outfit,
 /// on their chosen background colour and pattern.
@@ -19,6 +20,15 @@ class PeepSticker extends StatelessWidget {
   final AvatarMood mood;
   final AvatarProp prop;
 
+  /// Grows the widget to fit [prop], which otherwise draws outside its
+  /// [size] square (over whatever is above it). Keep it off to line
+  /// stickers up by their circles.
+  final bool reservePropSpace;
+
+  /// What screen readers say, e.g. "CleverOtter482's avatar". Without one
+  /// the sticker is decorative and hidden from them.
+  final String? semanticLabel;
+
   const PeepSticker({
     super.key,
     required this.avatar,
@@ -26,6 +36,8 @@ class PeepSticker extends StatelessWidget {
     this.animate = false,
     this.mood = AvatarMood.neutral,
     this.prop = AvatarProp.none,
+    this.reservePropSpace = false,
+    this.semanticLabel,
   });
 
   @override
@@ -55,7 +67,15 @@ class PeepSticker extends StatelessWidget {
     final child = animate
         ? PeepBlink(mood: mood, builder: (context, mood) => sticker(mood))
         : sticker(mood);
-    return PeepPropFrame(prop: prop, size: size, child: child);
+    return peepSemantics(
+      label: semanticLabel,
+      child: PeepPropFrame(
+        prop: prop,
+        size: size,
+        reserveSpace: reservePropSpace,
+        child: child,
+      ),
+    );
   }
 }
 
@@ -145,32 +165,62 @@ class _PeepBlinkState extends State<PeepBlink> {
 
 /// Places [prop] over a [size] square [child]: a crown on top or a sparkle
 /// at the corner.
+///
+/// The prop overhangs the square unless [reserveSpace] is set, which grows
+/// the frame by [propOverhang] so the prop is inside it.
 class PeepPropFrame extends StatelessWidget {
   final AvatarProp prop;
   final double size;
+  final bool reserveSpace;
   final Widget child;
 
   const PeepPropFrame({
     super.key,
     required this.prop,
     required this.size,
+    this.reserveSpace = false,
     required this.child,
   });
+
+  /// How far [prop] reaches above and to the right of a [size] square,
+  /// including its tilt.
+  static ({double top, double right}) propOverhang(
+    AvatarProp prop,
+    double size,
+  ) => switch (prop) {
+    AvatarProp.none => (top: 0, right: 0),
+    AvatarProp.crown => (top: size * 0.42, right: 0),
+    AvatarProp.sparkle => (top: size * 0.12, right: size * 0.12),
+  };
 
   @override
   Widget build(BuildContext context) {
     if (prop == AvatarProp.none) return child;
     final d = size;
-    return SizedBox.square(
-      dimension: d,
+    final overhang = reserveSpace
+        ? propOverhang(prop, d)
+        : (top: 0.0, right: 0.0);
+    return SizedBox(
+      width: d + overhang.right,
+      height: d + overhang.top,
       child: Stack(
         clipBehavior: Clip.none,
         children: [
-          child,
+          Positioned(
+            left: 0,
+            top: overhang.top,
+            width: d,
+            height: d,
+            child: child,
+          ),
           Positioned(
             left: prop == AvatarProp.crown ? d * 0.22 : null,
-            right: prop == AvatarProp.sparkle ? -d * 0.08 : null,
-            top: prop == AvatarProp.crown ? -d * 0.36 : -d * 0.08,
+            right: prop == AvatarProp.sparkle
+                ? overhang.right - d * 0.08
+                : null,
+            top:
+                overhang.top +
+                (prop == AvatarProp.crown ? -d * 0.36 : -d * 0.08),
             child: PeepProp(prop: prop, size: d),
           ),
         ],

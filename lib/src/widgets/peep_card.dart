@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:open_peeps_avatar/src/avatar_look.dart';
 import 'package:open_peeps_avatar/src/theme.dart';
 import 'package:open_peeps_avatar/src/widgets/peep_figure.dart';
+import 'package:open_peeps_avatar/src/widgets/peep_semantics.dart';
 
 /// The full-body peep on a card, in its pose, with an optional caption.
 class PeepCard extends StatelessWidget {
@@ -11,12 +12,17 @@ class PeepCard extends StatelessWidget {
   final AvatarMood mood;
   final Widget? caption;
 
+  /// What screen readers say for the peep. Without one it's decorative
+  /// (the [caption] is still read).
+  final String? semanticLabel;
+
   const PeepCard({
     super.key,
     required this.avatar,
     this.width = 180,
     this.mood = AvatarMood.neutral,
     this.caption,
+    this.semanticLabel,
   });
 
   @override
@@ -35,7 +41,15 @@ class PeepCard extends StatelessWidget {
       child: Column(
         mainAxisSize: MainAxisSize.min,
         children: [
-          PeepPortrait(look: look, seed: avatar, mood: mood, width: width),
+          peepSemantics(
+            label: semanticLabel,
+            child: PeepPortrait(
+              look: look,
+              seed: avatar,
+              mood: mood,
+              width: width,
+            ),
+          ),
           if (caption != null) ...[SizedBox(height: pad), caption!],
         ],
       ),
