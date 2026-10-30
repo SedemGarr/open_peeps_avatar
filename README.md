@@ -6,6 +6,7 @@ Customisable [Open Peeps](https://www.openpeeps.com) avatars for Flutter games. 
 
 - **`AvatarLook`**: head, face, facial hair, accessory, skin, pen colour, outfit, pose, background and pattern, packed into one `int` (exact on web, < 2^53).
 - **Widgets**: `PeepSticker` (round head and shoulders), `PeepCard` (full body), `PeepFigure` / `PeepBust` / `PeepPortrait` to build your own frames, and `PeepAvatar` (head only, v1).
+- **Helpers**: `PeepCutout` (a die-cut outline for dark backgrounds) and `PeepCapture` (save a peep as a PNG to share), plus screen reader labels on every widget.
 - **`PeepStudio`**: the full editor with shuffle, undo, keep-when-shuffling, saved looks and locked items. Text, icons and widgets are all swappable.
 
 ## Install
