@@ -1,6 +1,6 @@
 # open_peeps_avatar
 
-Open Peeps avatars for Flutter games, extracted from Simple Shuffle.
+Customisable [Open Peeps](https://www.openpeeps.com) avatars for Flutter games. Built for Simple Shuffle by Wayyy Out Games, building on [open_peeps](https://pub.dev/packages/open_peeps) by Jens Horstmann.
 
 - **`AvatarLook`**: head, face, facial hair, accessory, skin, pen colour, outfit, pose, background and pattern, packed into one `int` (exact on web, < 2^53).
 - **Widgets**: `PeepSticker` (round head and shoulders), `PeepCard` (full body), `PeepFigure` / `PeepBust` / `PeepPortrait` to build your own frames, and `PeepAvatar` (head only, v1).
@@ -8,12 +8,8 @@ Open Peeps avatars for Flutter games, extracted from Simple Shuffle.
 
 ## Install
 
-```yaml
-dependencies:
-  open_peeps_avatar:
-    git:
-      url: <this repo's url>
-      ref: v0.1.0
+```sh
+flutter pub add open_peeps_avatar
 ```
 
 You don't need to declare the SVGs; they load from the package.
@@ -80,3 +76,8 @@ Then give the studio `earned: {...badge ids}` and `onLockedTap`.
 
 - `flutter test`: `test/avatar_encoding_test.dart` pins the encoding against values captured from Simple Shuffle; it must never change.
 - `tool/open_peeps_generator.dart` regenerates the atom lists from SVGs.
+
+## Credits
+
+- Illustrations: [Open Peeps](https://www.openpeeps.com) by Pablo Stanley (CC0).
+- Original atom and serializer code: [open_peeps](https://pub.dev/packages/open_peeps) by Jens Horstmann (MIT).
