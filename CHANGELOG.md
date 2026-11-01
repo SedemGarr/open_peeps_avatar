@@ -1,3 +1,7 @@
+## 0.2.1
+
+- The studio's pattern tiles were blank apart from Plain; they now show each pattern.
+
 ## 0.2.0
 
 - `PeepCutout`: a die-cut outline around any peep, so dark-ink peeps stand out on dark backgrounds.

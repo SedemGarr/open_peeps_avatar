@@ -119,6 +119,52 @@ void main() {
     });
   }
 
+  testWidgets('every pattern tile in the studio is drawn', (tester) async {
+    await tester.pumpWidget(
+      MaterialApp(
+        home: Scaffold(
+          body: Builder(
+            builder: (context) => TextButton(
+              onPressed: () => showPeepStudio(
+                context: context,
+                studio: PeepStudio(initial: _code, onClose: (_) {}),
+              ),
+              child: const Text('open'),
+            ),
+          ),
+        ),
+      ),
+    );
+    await tester.tap(find.text('open'));
+    await tester.pumpAndSettle();
+    // Pattern is the last tab, so scroll the row of tabs to it.
+    await tester.dragUntilVisible(
+      find.text('Pattern'),
+      find.byWidgetPredicate(
+        (widget) =>
+            widget is ListView && widget.scrollDirection == Axis.horizontal,
+      ),
+      const Offset(-200, 0),
+    );
+    await tester.pumpAndSettle();
+    await tester.tap(find.text('Pattern'));
+    await tester.pumpAndSettle();
+
+    final tiles = find.byWidgetPredicate(
+      (widget) =>
+          widget is CustomPaint && widget.painter is AvatarPatternPainter,
+    );
+    // One per pattern, plus the preview's own background.
+    expect(tiles.evaluate().length, greaterThanOrEqualTo(AvatarLook.patterns));
+    for (final tile in tiles.evaluate()) {
+      expect(
+        tile.size!.width,
+        greaterThan(0),
+        reason: 'pattern tiles must not collapse',
+      );
+    }
+  });
+
   testWidgets('stickers can make room for their prop', (tester) async {
     await tester.pumpWidget(
       _app(

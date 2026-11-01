@@ -529,6 +529,8 @@ class _PeepStudioState extends State<PeepStudio> {
             color: avatarBackground(context, _look, _look.encode()),
             pattern: i,
           ),
+          // A CustomPaint without a child takes no space, so the patterned
+          // tiles need something to fill them or they draw nothing.
           child: i == 0
               ? Center(
                   child: Text(
@@ -536,7 +538,7 @@ class _PeepStudioState extends State<PeepStudio> {
                     style: Theme.of(context).textTheme.labelSmall,
                   ),
                 )
-              : null,
+              : const SizedBox.expand(),
         ),
       ),
     };
