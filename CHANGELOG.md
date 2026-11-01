@@ -1,7 +1,10 @@
+## 0.2.2
+
+- `PeepStudio.onClose` and `onStats` now run just after the studio is disposed rather than during it, so they can call `setState` or update state without throwing.
+
 ## 0.2.1
 
 - The studio's pattern tiles were blank apart from Plain; they now show each pattern.
-- `PeepStudio.onClose` and `onStats` now run just after the studio is disposed rather than during it, so they can call `setState` or update state without throwing.
 
 ## 0.2.0
 
