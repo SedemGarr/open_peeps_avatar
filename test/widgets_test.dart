@@ -119,6 +119,39 @@ void main() {
     });
   }
 
+  testWidgets('onClose can rebuild the screen that opened the studio', (
+    tester,
+  ) async {
+    int? avatar;
+    await tester.pumpWidget(
+      MaterialApp(
+        home: Scaffold(
+          body: StatefulBuilder(
+            builder: (context, setState) => TextButton(
+              onPressed: () => showPeepStudio(
+                context: context,
+                studio: PeepStudio(
+                  initial: _code,
+                  // Used to throw: the studio called this while being disposed.
+                  onClose: (code) => setState(() => avatar = code),
+                ),
+              ),
+              child: Text(avatar == null ? 'open' : 'closed'),
+            ),
+          ),
+        ),
+      ),
+    );
+    await tester.tap(find.text('open'));
+    await tester.pumpAndSettle();
+    await tester.tap(find.byIcon(Icons.close));
+    await tester.pumpAndSettle();
+
+    expect(tester.takeException(), isNull);
+    expect(find.text('closed'), findsOneWidget);
+    expect(avatar, _code);
+  });
+
   testWidgets('every pattern tile in the studio is drawn', (tester) async {
     await tester.pumpWidget(
       MaterialApp(

@@ -1,3 +1,4 @@
+import 'dart:async';
 import 'dart:math';
 
 import 'package:flutter/material.dart';
@@ -104,7 +105,8 @@ class PeepStudio extends StatefulWidget {
   /// The encoded look the studio opens with.
   final int initial;
 
-  /// Called with the encoded look when the studio closes.
+  /// Called with the encoded look when the studio closes, just after it has
+  /// gone, so it's safe to call setState or update state from here.
   final ValueChanged<int> onClose;
 
   /// Requirements the player has met (see [AvatarUnlocks]).
@@ -119,7 +121,7 @@ class PeepStudio extends StatefulWidget {
   final List<int> savedLooks;
   final ValueChanged<List<int>>? onSavedLooksChanged;
 
-  /// Called once, as the studio closes.
+  /// Called once, as the studio closes, just before [onClose].
   final ValueChanged<PeepStudioStats>? onStats;
 
   final PeepStudioStrings strings;
@@ -165,16 +167,21 @@ class _PeepStudioState extends State<PeepStudio> {
   @override
   void dispose() {
     final code = _look.encode();
-    widget.onStats?.call(
-      PeepStudioStats(
-        changed: code != widget.initial,
-        edits: _edits,
-        shuffles: _shuffles,
-        savedLooks: _saved.length,
-        look: _look,
-      ),
+    final stats = PeepStudioStats(
+      changed: code != widget.initial,
+      edits: _edits,
+      shuffles: _shuffles,
+      savedLooks: _saved.length,
+      look: _look,
     );
-    widget.onClose(code);
+    final onStats = widget.onStats;
+    final onClose = widget.onClose;
+    // The tree is locked while the studio is disposed, so callers couldn't
+    // rebuild or update state from these. They run as soon as it's done.
+    scheduleMicrotask(() {
+      onStats?.call(stats);
+      onClose(code);
+    });
     super.dispose();
   }
 
