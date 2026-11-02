@@ -1,3 +1,9 @@
+## 0.2.3
+
+- `AvatarLook.decode` no longer throws a `RangeError` on a malformed code (such as one read back from storage); out-of-range parts wrap round instead. Valid codes decode exactly as before.
+- `PeepGenerator` can now pick the last head, face, facial hair and accessory in each set; it never chose them before.
+- `.DS_Store` files are no longer shipped inside the assets.
+
 ## 0.2.2
 
 - `PeepStudio.onClose` and `onStats` now run just after the studio is disposed rather than during it, so they can call `setState` or update state without throwing.
