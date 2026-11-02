@@ -8,3 +8,4 @@ pubspec.lock
 *.iml
 example/.dart_tool/
 example/build/
+.DS_Store

@@ -32,10 +32,12 @@ abstract class PeepSerializer {
     final faceIndex = (value >> 16) % moduloValue;
     final headIndex = (value >> 24) % moduloValue;
 
-    final head = Head.atoms[headIndex];
-    final face = Face.atoms[faceIndex];
-    final facialHair = FacialHair.atoms[facialHairIndex];
-    final accessory = Accessories.atoms[accessoryIndex];
+    // Codes can come from storage; wrap out-of-range bytes instead of
+    // throwing. Valid codes are unaffected.
+    final head = Head.atoms[headIndex % Head.atoms.length];
+    final face = Face.atoms[faceIndex % Face.atoms.length];
+    final facialHair = FacialHair.atoms[facialHairIndex % FacialHair.atoms.length];
+    final accessory = Accessories.atoms[accessoryIndex % Accessories.atoms.length];
 
     return Peep(
       head: head,

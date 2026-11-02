@@ -17,7 +17,7 @@ class PeepGenerator {
 
   PeepAtom _generateFromAtoms({required List<PeepAtom> atoms}) {
     final length = atoms.length;
-    final number = random.nextInt(length - 1);
+    final number = random.nextInt(length);
     return atoms[number];
   }
 
